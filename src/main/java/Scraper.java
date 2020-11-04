@@ -70,7 +70,7 @@ public class Scraper {
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(1000, 800));
+        frame.setPreferredSize(new Dimension(1030, 800));
         frame.setLayout(new FlowLayout(0));
         frame.add(mainContainer, BorderLayout.NORTH);
         frame.add(buttonContainer, BorderLayout.SOUTH);
