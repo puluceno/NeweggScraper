@@ -1,11 +1,25 @@
-import org.apache.commons.lang3.StringEscapeUtils;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -24,6 +38,8 @@ public class Scraper {
 
     private JTextField url3080 = new JTextField("https://www.newegg.com/p/pl?N=100007709%20601357247");
     private JTextField url3090 = new JTextField("https://www.newegg.com/p/pl?N=100007709%20601357248");
+
+    JFrame frame = new JFrame();
 
     public Scraper() {
 
@@ -68,7 +84,6 @@ public class Scraper {
         buttonContainer.add(disableScrape);
         buttonContainer.setPreferredSize(new Dimension(1000, 80));
 
-        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(1030, 800));
         frame.setLayout(new FlowLayout(0));
@@ -78,9 +93,18 @@ public class Scraper {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                Runner.closeFH();
+                System.exit(0);
+            }
+        });
     }
 
-    public void set3080Content(ArrayList<String> data) { data3080 = data; }
+    public void set3080Content(ArrayList<String> data) {
+        data3080 = data;
+    }
 
     public void set3090Content(ArrayList<String> data) {
         data3090 = data;
