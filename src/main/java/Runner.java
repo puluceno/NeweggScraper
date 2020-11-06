@@ -3,6 +3,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -33,7 +34,12 @@ public class Runner {
             ArrayList<String> urls = scraper.getUrls();
             if (scraper.keepScrapin) {
                 if (urls.size() > 0) {
-                    ArrayList<String> scrape1 = ScraperHelper.scrape3080(urls.get(0), false);
+                    ArrayList<String> scrape1 = new ArrayList<String>();
+                    try {
+                        scrape1 = ScraperHelper.scrape(urls.get(0), false);
+                    } catch (Exception e) {
+                        logger.warning("Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
+                    }
                     if (scrape1.size() > 0) {
                         for (String item : scrape1) {
                             logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
@@ -48,7 +54,12 @@ public class Runner {
                 }
 
                 if (urls.size() > 1) {
-                    ArrayList<String> scrape2 = ScraperHelper.scrape3090(urls.get(1), false);
+                    ArrayList<String> scrape2 = new ArrayList<String>();
+                    try {
+                        scrape2 = ScraperHelper.scrape(urls.get(1), false);
+                    } catch (Exception e) {
+                        //logger.warning("Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
+                    }
                     if (scrape2.size() > 0) {
                         for (String item : scrape2) {
                             logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
@@ -63,12 +74,22 @@ public class Runner {
                 }
             } else {
                 if (urls.size() > 0) {
-                    ArrayList<String> scrape1 = ScraperHelper.scrape3080(urls.get(0), true);
+                    ArrayList<String> scrape1 = new ArrayList<String>();
+                    try {
+                        scrape1 = ScraperHelper.scrape(urls.get(0), true);
+                    } catch (Exception e) {
+                        logger.warning("Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
+                    }
                     scraper.set3080Content(scrape1);
                 }
 
                 if (urls.size() > 1) {
-                    ArrayList<String> scrape2 = ScraperHelper.scrape3090(urls.get(1), true);
+                    ArrayList<String> scrape2 = new ArrayList<String>();
+                    try {
+                        scrape2 = ScraperHelper.scrape(urls.get(1), true);
+                    } catch (Exception e) {
+                        logger.warning("Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
+                    }
                     scraper.set3090Content(scrape2);
                 }
             }
