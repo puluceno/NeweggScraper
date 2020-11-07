@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,18 +15,19 @@ public class Runner {
 
     private static FileHandler fh;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         Logger logger = Logger.getLogger("pooplog");
 
-        fh = new FileHandler("poop.log");
-        logger.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();
-        fh.setFormatter(formatter);
-
-        Scraper scraper = new Scraper();
-
         try {
+            fh = new FileHandler("poop.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+
+            Scraper scraper = new Scraper();
+
+
             while (true) {
                 ArrayList<String> urls = scraper.getUrls();
                 if (scraper.keepScrapin) {
@@ -56,7 +56,7 @@ public class Runner {
                         try {
                             scrape2 = ScraperHelper.scrape(urls.get(1), false);
                         } catch (Exception e) {
-                            //logger.warning("Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
+                            logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
                         if (scrape2.size() > 0) {
                             for (String item : scrape2) {
@@ -76,7 +76,7 @@ public class Runner {
                         try {
                             scrape1 = ScraperHelper.scrape(urls.get(0), true);
                         } catch (Exception e) {
-                            logger.warning("Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
+                            logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
                         scraper.set3080Content(scrape1);
                     }
@@ -86,7 +86,7 @@ public class Runner {
                         try {
                             scrape2 = ScraperHelper.scrape(urls.get(1), true);
                         } catch (Exception e) {
-                            logger.warning("Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
+                            logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
                         scraper.set3090Content(scrape2);
                     }
@@ -95,6 +95,8 @@ public class Runner {
             }
         } catch (Exception e) {
             logger.warning("Main Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
+        } finally {
+            closeFH();
         }
     }
 
