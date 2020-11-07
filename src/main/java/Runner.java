@@ -42,7 +42,7 @@ public class Runner {
                             for (String item : scrape1) {
                                 logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
                             }
-                            URL resource = Runner.class.getResource("/alert.wav");
+                            URL resource = Runner.class.getClassLoader().getResource("alert.wav");
                             Clip clip = AudioSystem.getClip();
                             AudioInputStream inputStream = AudioSystem.getAudioInputStream(Paths.get(resource.toURI()).toFile());
                             clip.open(inputStream);
@@ -58,11 +58,11 @@ public class Runner {
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
-                        if (scrape2.size() == 0) {
+                        if (scrape2.size() > 0) {
                             for (String item : scrape2) {
                                 logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
                             }
-                            URL resource = Runner.class.getResource("/alert.wav");
+                            URL resource = Runner.class.getClassLoader().getResource("alert.wav");
                             Clip clip = AudioSystem.getClip();
                             AudioInputStream inputStream = AudioSystem.getAudioInputStream(Paths.get(resource.toURI()).toFile());
                             clip.open(inputStream);
