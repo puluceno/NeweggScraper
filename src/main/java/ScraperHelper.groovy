@@ -17,11 +17,11 @@ static ArrayList<String> scrape(String uri, boolean test) {
                     it."**".find { it.@class.toString().contains("btn") }.each {
                         if (test) {
                             if (it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) || it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
-                                ret.add(product + "|" + link)
+                                ret.add(product + "|" + uri)
                             }
                         } else {
                             if (!it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) && !it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
-                                ret.add(product + "|" + link)
+                                ret.add(product + "|" + uri)
                             }
                         }
                     }
