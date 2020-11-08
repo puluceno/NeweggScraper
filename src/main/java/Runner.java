@@ -37,19 +37,24 @@ public class Runner {
                     if (urls.size() > 0) {
                         ArrayList<String> scrape1 = new ArrayList<String>();
                         try {
-                            scrape1 = ScraperHelper.scrape(urls.get(0), false);
+                            if (scraper.scrapeIndividual)
+                                scrape1 = ScraperHelper.scrapeIndividual(urls.get(0), false);
+                            else
+                                scrape1 = ScraperHelper.scrape(urls.get(0), false);
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
-                        if (scrape1.size() > 0) {
+                        if (scrape1.size() == 0) {
                             for (String item : scrape1) {
                                 logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
                             }
-                            bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav")));
-                            audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
-                            Clip clip = AudioSystem.getClip();
-                            clip.open(audioInputStream);
-                            clip.start();
+                            if (!scraper.muteSound) {
+                                bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav")));
+                                audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
+                                Clip clip = AudioSystem.getClip();
+                                clip.open(audioInputStream);
+                                clip.start();
+                            }
                         }
                         scraper.set3080Content(scrape1);
                     }
@@ -57,7 +62,10 @@ public class Runner {
                     if (urls.size() > 1) {
                         ArrayList<String> scrape2 = new ArrayList<String>();
                         try {
-                            scrape2 = ScraperHelper.scrape(urls.get(1), false);
+                            if (scraper.scrapeIndividual)
+                                scrape2 = ScraperHelper.scrapeIndividual(urls.get(1), false);
+                            else
+                                scrape2 = ScraperHelper.scrape(urls.get(1), false);
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
@@ -65,11 +73,13 @@ public class Runner {
                             for (String item : scrape2) {
                                 logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
                             }
-                            bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav")));
-                            audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
-                            Clip clip = AudioSystem.getClip();
-                            clip.open(audioInputStream);
-                            clip.start();
+                            if (!scraper.muteSound) {
+                                bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav")));
+                                audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
+                                Clip clip = AudioSystem.getClip();
+                                clip.open(audioInputStream);
+                                clip.start();
+                            }
                         }
                         scraper.set3090Content(scrape2);
                     }
@@ -77,7 +87,10 @@ public class Runner {
                     if (urls.size() > 0) {
                         ArrayList<String> scrape1 = new ArrayList<String>();
                         try {
-                            scrape1 = ScraperHelper.scrape(urls.get(0), true);
+                            if (scraper.scrapeIndividual)
+                                scrape1 = ScraperHelper.scrapeIndividual(urls.get(0), true);
+                            else
+                                scrape1 = ScraperHelper.scrape(urls.get(0), true);
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
@@ -87,7 +100,10 @@ public class Runner {
                     if (urls.size() > 1) {
                         ArrayList<String> scrape2 = new ArrayList<String>();
                         try {
-                            scrape2 = ScraperHelper.scrape(urls.get(1), true);
+                            if (scraper.scrapeIndividual)
+                                scrape2 = ScraperHelper.scrapeIndividual(urls.get(1), true);
+                            else
+                                scrape2 = ScraperHelper.scrape(urls.get(1), true);
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }

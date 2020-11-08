@@ -29,6 +29,8 @@ import java.util.regex.Pattern;
 public class Scraper {
 
     public boolean keepScrapin = false;
+    public boolean scrapeIndividual = false;
+    public boolean muteSound = false;
 
     private ArrayList<String> data3080 = new ArrayList<String>();
     private ArrayList<String> data3090 = new ArrayList<String>();
@@ -38,6 +40,9 @@ public class Scraper {
 
     private JTextField url3080 = new JTextField("https://www.newegg.com/p/pl?N=100007709%20601357247");
     private JTextField url3090 = new JTextField("https://www.newegg.com/p/pl?N=100007709%20601357248");
+
+    private JButton enableIndividual = new JButton("Check Individual Pages");
+    private JButton enableMute = new JButton("Mute Sound");
 
     JFrame frame = new JFrame();
 
@@ -71,21 +76,50 @@ public class Scraper {
             }
         });
 
+        enableIndividual.setBackground(Color.RED);
+        enableIndividual.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                if (scrapeIndividual) {
+                    scrapeIndividual = false;
+                    enableIndividual.setBackground(Color.RED);
+                } else {
+                    scrapeIndividual = true;
+                    enableIndividual.setBackground(Color.GREEN);
+                }
+            }
+        });
+
+        enableMute.setBackground(Color.RED);
+        enableMute.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                if (muteSound) {
+                    muteSound = false;
+                    enableMute.setBackground(Color.RED);
+                } else {
+                    muteSound = true;
+                    enableMute.setBackground(Color.GREEN);
+                }
+            }
+        });
+
         JPanel mainContainer = new JPanel();
         mainContainer.setLayout(new GridLayout(1, 2));
         mainContainer.add(setup3080Panel(panel3080, pane3080));
         mainContainer.add(setup3090Panel(panel3090, pane3090));
         mainContainer.setPreferredSize(new Dimension(1000, 660));
         JPanel buttonContainer = new JPanel();
-        buttonContainer.setLayout(new GridLayout(2, 2));
+        buttonContainer.setLayout(new GridLayout(3, 2));
         buttonContainer.add(url3080);
         buttonContainer.add(url3090);
         buttonContainer.add(enableScrape);
         buttonContainer.add(disableScrape);
-        buttonContainer.setPreferredSize(new Dimension(1000, 80));
+        buttonContainer.add(enableIndividual);
+        buttonContainer.add(enableMute);
+        buttonContainer.setPreferredSize(new Dimension(1000, 120));
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(1030, 800));
+        frame.setPreferredSize(new Dimension(1030, 840));
         frame.setLayout(new FlowLayout(0));
         frame.add(mainContainer, BorderLayout.NORTH);
         frame.add(buttonContainer, BorderLayout.SOUTH);
