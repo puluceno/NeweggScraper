@@ -1,9 +1,7 @@
 import groovyx.net.http.HTTPBuilder
 
 static ArrayList<String> scrape(String uri, boolean test) {
-    //3080
-    def found = false
-    def ret = new ArrayList<String>();
+    def ret = new ArrayList<String>()
     String AUTO_NOTIFY = "AUTO NOTIFY"
     String SOLD_OUT = "SOLD OUT"
     def http = new HTTPBuilder(uri)
@@ -19,19 +17,16 @@ static ArrayList<String> scrape(String uri, boolean test) {
                     it."**".find { it.@class.toString().contains("btn") }.each {
                         if (test) {
                             if (it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) || it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
-                                found = true
+                                ret.add(product + "|" + link)
                             }
                         } else {
                             if (!it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) && !it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
-                                found = true
+                                ret.add(product + "|" + link)
                             }
                         }
                     }
                 }
             }
-        }
-        if (found) {
-            ret.add(product + "|" + link)
         }
     }
 

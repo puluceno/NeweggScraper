@@ -1,7 +1,7 @@
-import java.net.URL;
-import java.nio.file.Paths;
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -38,13 +38,12 @@ public class Runner {
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
-                        if (scrape1.size() > 0) {
+                        if (scrape1.size() == 0) {
                             for (String item : scrape1) {
                                 logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
                             }
-                            URL resource = Runner.class.getClassLoader().getResource("alert.wav");
+                            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav"))));
                             Clip clip = AudioSystem.getClip();
-                            AudioInputStream inputStream = AudioSystem.getAudioInputStream(Paths.get(resource.toURI()).toFile());
                             clip.open(inputStream);
                             clip.start();
                         }
@@ -62,9 +61,8 @@ public class Runner {
                             for (String item : scrape2) {
                                 logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
                             }
-                            URL resource = Runner.class.getClassLoader().getResource("alert.wav");
+                            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav"))));
                             Clip clip = AudioSystem.getClip();
-                            AudioInputStream inputStream = AudioSystem.getAudioInputStream(Paths.get(resource.toURI()).toFile());
                             clip.open(inputStream);
                             clip.start();
                         }
