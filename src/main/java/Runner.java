@@ -1,4 +1,5 @@
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -14,6 +15,8 @@ import static java.lang.Thread.sleep;
 public class Runner {
 
     private static FileHandler fh;
+    private static BufferedInputStream bufferedInputStream;
+    private static AudioInputStream audioInputStream;
 
     public static void main(String[] args) {
 
@@ -42,9 +45,10 @@ public class Runner {
                             for (String item : scrape1) {
                                 logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
                             }
-                            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav"))));
+                            bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav")));
+                            audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
                             Clip clip = AudioSystem.getClip();
-                            clip.open(inputStream);
+                            clip.open(audioInputStream);
                             clip.start();
                         }
                         scraper.set3080Content(scrape1);
@@ -61,9 +65,10 @@ public class Runner {
                             for (String item : scrape2) {
                                 logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
                             }
-                            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav"))));
+                            bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav")));
+                            audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
                             Clip clip = AudioSystem.getClip();
-                            clip.open(inputStream);
+                            clip.open(audioInputStream);
                             clip.start();
                         }
                         scraper.set3090Content(scrape2);
@@ -94,11 +99,17 @@ public class Runner {
         } catch (Exception e) {
             logger.warning("Main Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
         } finally {
-            closeFH();
+            closer();
         }
     }
 
-    public static void closeFH() {
-        fh.close();
+    public static void closer()  {
+        try {
+            fh.close();
+            bufferedInputStream.close();
+            audioInputStream.close();
+        } catch (IOException e) {
+            // Do nothing
+        }
     }
 }
