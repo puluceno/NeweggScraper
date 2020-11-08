@@ -38,7 +38,7 @@ public class Runner {
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
-                        if (scrape1.size() == 0) {
+                        if (scrape1.size() > 0) {
                             for (String item : scrape1) {
                                 logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
                             }
