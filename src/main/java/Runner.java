@@ -106,8 +106,10 @@ public class Runner {
     public static void closer()  {
         try {
             fh.close();
-            bufferedInputStream.close();
-            audioInputStream.close();
+            if (bufferedInputStream != null)
+                bufferedInputStream.close();
+            if (audioInputStream != null)
+                audioInputStream.close();
         } catch (IOException e) {
             // Do nothing
         }
