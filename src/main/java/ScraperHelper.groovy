@@ -4,7 +4,7 @@ static ArrayList<String> scrape(String uri, boolean test) {
     def ret = new ArrayList<String>()
     String AUTO_NOTIFY = "AUTO NOTIFY"
     String SOLD_OUT = "SOLD OUT"
-    def http = new HTTPBuilder(uri)
+    def http = new HTTPBuilder(uri.replace(" ", "%20"))
 
     def html = http.get([:])
 
@@ -37,7 +37,7 @@ static ArrayList<String> scrapeIndividual(String uri, boolean test) {
     def ret = new ArrayList<String>()
     String AUTO_NOTIFY = "AUTO NOTIFY"
     String SOLD_OUT = "SOLD OUT"
-    def http = new HTTPBuilder(uri)
+    def http = new HTTPBuilder(uri.replace(" ", "%20"))
 
     def html = http.get([:])
 
@@ -46,7 +46,7 @@ static ArrayList<String> scrapeIndividual(String uri, boolean test) {
         String link = it.A[0].attributes().get("href").toString()
         it."**".find { it.@class.toString().contains("item-info") }.each {
             def itemLink = it.A[0].attributes().get("href").toString()
-            def http2 = new HTTPBuilder(itemLink)
+            def http2 = new HTTPBuilder(itemLink.replace(" ", "%20"))
             def html2 = http2.get([:])
             html2."**".findAll { it.@class.toString().contains("product-buy-box") }.each {
                 it."**".find { it.@class.toString().contains("btn-wide") }.each {

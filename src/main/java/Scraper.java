@@ -38,8 +38,8 @@ public class Scraper {
     private UrlTextPane pane3080 = new UrlTextPane();
     private UrlTextPane pane3090 = new UrlTextPane();
 
-    private JTextField url3080 = new JTextField("https://www.newegg.com/p/pl?N=100007709%20601357247");
-    private JTextField url3090 = new JTextField("https://www.newegg.com/p/pl?N=100007709%20601357248");
+    private JTextField url3080 = new JTextField("https://www.newegg.com/p/pl?d=rtx+3080&N=100007709&isdeptsrh=1");
+    private JTextField url3090 = new JTextField("https://www.newegg.com/p/pl?d=rtx+3090&N=100007709&isdeptsrh=1");
 
     private JButton enableIndividual = new JButton("Check Individual Pages");
     private JButton enableMute = new JButton("Mute Sound");
