@@ -46,7 +46,7 @@ public class Runner {
                         }
                         if (scrape1.size() > 0) {
                             for (String item : scrape1) {
-                                logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
+                                logger.info(item.split("‽")[0] + " IN STOCK\r\n      " + item.split("‽")[1]);
                             }
                             if (!scraper.muteSound) {
                                 bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav")));
@@ -71,7 +71,7 @@ public class Runner {
                         }
                         if (scrape2.size() > 0) {
                             for (String item : scrape2) {
-                                logger.info(item.split("\\|")[0] + " IN STOCK\r\n      " + item.split("\\|")[1]);
+                                logger.info(item.split("‽")[0] + " IN STOCK\r\n      " + item.split("‽")[1]);
                             }
                             if (!scraper.muteSound) {
                                 bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(Runner.class.getClassLoader().getResourceAsStream("alert.wav")));

@@ -203,7 +203,7 @@ public class Scraper {
         answer.append("<html><body>");
 
         for (String entry : data) {
-            String split[] = entry.split("\\|");
+            String split[] = entry.split("‽");
             String content = StringEscapeUtils.escapeHtml4(split[1]).replace(" ", "%20");
             int lastIndex = 0;
             Matcher matcher = urlPattern.matcher(content);

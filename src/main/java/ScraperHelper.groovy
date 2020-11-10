@@ -17,11 +17,11 @@ static ArrayList<String> scrape(String uri, boolean test) {
                     it."**".find { it.@class.toString().contains("btn") }.each {
                         if (test) {
                             if (it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) || it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
-                                ret.add(product + "|" + link)
+                                ret.add(product + "‽" + link)
                             }
                         } else {
                             if (!it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) && !it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
-                                ret.add(product + "|" + link)
+                                ret.add(product + "‽" + link)
                             }
                         }
                     }
@@ -41,26 +41,38 @@ static ArrayList<String> scrapeIndividual(String uri, boolean test) {
 
     def html = http.get([:])
 
+    String product = "";
+    String itemLink = "";
+
     html."**".findAll { it.@class.toString().contains("item-container") }.each {
-        String product = it.A[0].IMG[0].attributes().get("title").toString()
-        String link = it.A[0].attributes().get("href").toString()
         it."**".find { it.@class.toString().contains("item-info") }.each {
-            def itemLink = it.A[0].attributes().get("href").toString()
-            def http2 = new HTTPBuilder(itemLink.replace(" ", "%20"))
-            def html2 = http2.get([:])
-            html2."**".findAll { it.@class.toString().contains("product-buy-box") }.each {
-                it."**".find { it.@class.toString().contains("btn-wide") }.each {
-                    if (test) {
-                        if (it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) || it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
-                            ret.add(product + "|" + link)
-                        }
-                    } else {
-                        if (!it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) && !it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
-                            ret.add(product + "|" + link)
-                        }
-                    }
+            product = it.A[0].text().toString()
+            itemLink = it.A[0].attributes().get("href").toString()
+        }
+        def http2 = new HTTPBuilder(itemLink.replace(" ", "%20"))
+        def html2 = http2.get([:])
+        html2."**".find { it.@class.toString().contains("btn-wide") }.each {
+            if (test) {
+                if (it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) || it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
+                    ret.add(product + "‽" + itemLink)
+                }
+            } else {
+                if (!it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) && !it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
+                    ret.add(product + "‽" + itemLink)
                 }
             }
+        }
+        html2."**".find { it.@class.toString().contains("atnPrimary") }.each {
+            if (test) {
+                if (it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) || it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
+                    ret.add(product + "‽" + itemLink)
+                }
+            } else {
+                if (!it.text()?.toUpperCase()?.contains(AUTO_NOTIFY) && !it.text()?.toUpperCase()?.contains(SOLD_OUT)) {
+                    ret.add(product + "‽" + itemLink)
+                }
+            }
+
         }
     }
 
