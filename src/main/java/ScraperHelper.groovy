@@ -1,4 +1,8 @@
 import groovyx.net.http.HTTPBuilder
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
 
 static ArrayList<String> scrape(String uri, boolean test) {
     def ret = new ArrayList<String>()
@@ -8,6 +12,7 @@ static ArrayList<String> scrape(String uri, boolean test) {
 
     def html = http.get([:])
 
+    //Newegg
     html."**".findAll { it.@class.toString().contains("item-container") }.each {
         String product = it.A[0].IMG[0].attributes().get("title").toString()
         String link = it.A[0].attributes().get("href").toString()
@@ -44,6 +49,7 @@ static ArrayList<String> scrapeIndividual(String uri, boolean test) {
     String product = "";
     String itemLink = "";
 
+    //Newegg
     html."**".findAll { it.@class.toString().contains("item-container") }.each {
         it."**".find { it.@class.toString().contains("item-info") }.each {
             product = it.A[0].text().toString()
@@ -73,6 +79,42 @@ static ArrayList<String> scrapeIndividual(String uri, boolean test) {
                 }
             }
 
+        }
+    }
+
+    return ret
+}
+
+
+static ArrayList<String> scrapeBestBuy(String uri, boolean test) {
+
+    String linkPrefix = "https://www.bestbuy.com"
+
+    def ret = new ArrayList<String>()
+    String AUTO_NOTIFY = "AUTO NOTIFY"
+    String SOLD_OUT = "SOLD OUT"
+
+    URL url = new URL(uri.replace(" ", "%20"))
+    Document doc = Jsoup.parse(url, 5000)
+
+    Elements prodLink = doc.select("h4[class=sku-header]")
+
+    for (each in prodLink) {
+
+        String link = linkPrefix + each.select("a").first().attributes().get("href")
+        String product = each.select("a").first().text()
+
+        Element itemButton = doc.select("div[class=sku-list-item-button]").first()
+        String buttonText = itemButton.select("button").first().text()
+
+        if (test) {
+            if (buttonText?.toUpperCase()?.contains(AUTO_NOTIFY) || buttonText?.toUpperCase()?.contains(SOLD_OUT)) {
+                ret.add(product + "‽" + link)
+            }
+        } else {
+            if (!buttonText?.toUpperCase()?.contains(AUTO_NOTIFY) && !buttonText?.toUpperCase()?.contains(SOLD_OUT)) {
+                ret.add(product + "‽" + link)
+            }
         }
     }
 

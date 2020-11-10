@@ -31,6 +31,7 @@ public class Scraper {
     public boolean keepScrapin = false;
     public boolean scrapeIndividual = false;
     public boolean muteSound = false;
+    public boolean bestBuyMode = false;
 
     private ArrayList<String> data3080 = new ArrayList<String>();
     private ArrayList<String> data3090 = new ArrayList<String>();
@@ -38,10 +39,14 @@ public class Scraper {
     private UrlTextPane pane3080 = new UrlTextPane();
     private UrlTextPane pane3090 = new UrlTextPane();
 
+    //private JTextField url3080 = new JTextField("https://www.bestbuy.com/site/searchpage.jsp?st=3080+rtx");
     private JTextField url3080 = new JTextField("https://www.newegg.com/p/pl?d=rtx+3080&N=100007709&isdeptsrh=1");
+    //private JTextField url3090 = new JTextField("https://www.bestbuy.com/site/searchpage.jsp?st=3090+rtx");
     private JTextField url3090 = new JTextField("https://www.newegg.com/p/pl?d=rtx+3090&N=100007709&isdeptsrh=1");
 
-    private JButton enableIndividual = new JButton("Check Individual Pages");
+    private JButton enableScrape = new JButton("In/Out Of Stock");
+    private JButton enableBestBuyMode = new JButton("Best Buy Mode");
+    private JButton enableIndividual = new JButton("Individual Pages");
     private JButton enableMute = new JButton("Mute Sound");
 
     JFrame frame = new JFrame();
@@ -59,20 +64,31 @@ public class Scraper {
         });
         timer.start();
 
-        JButton enableScrape = new JButton("Show In Stock");
+        enableScrape.setBackground(Color.RED);
         enableScrape.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                keepScrapin = true;
+                if (keepScrapin) {
+                    keepScrapin = false;
+                    enableScrape.setBackground(Color.RED);
+                } else {
+                    keepScrapin = true;
+                    enableScrape.setBackground(Color.GREEN);
+                }
                 setUrls(url3080.getText(), url3090.getText());
             }
         });
 
-        JButton disableScrape = new JButton("Show Out Of Stock");
-        disableScrape.addActionListener(new ActionListener() {
+        enableBestBuyMode.setBackground(Color.RED);
+        enableBestBuyMode.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                keepScrapin = false;
-                setUrls(url3080.getText(), url3090.getText());
+                if (bestBuyMode) {
+                    bestBuyMode = false;
+                    enableBestBuyMode.setBackground(Color.RED);
+                } else {
+                    bestBuyMode = true;
+                    enableBestBuyMode.setBackground(Color.GREEN);
+                }
             }
         });
 
@@ -113,7 +129,7 @@ public class Scraper {
         buttonContainer.add(url3080);
         buttonContainer.add(url3090);
         buttonContainer.add(enableScrape);
-        buttonContainer.add(disableScrape);
+        buttonContainer.add(enableBestBuyMode);
         buttonContainer.add(enableIndividual);
         buttonContainer.add(enableMute);
         buttonContainer.setPreferredSize(new Dimension(1000, 120));

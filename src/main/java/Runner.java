@@ -37,10 +37,14 @@ public class Runner {
                     if (urls.size() > 0) {
                         ArrayList<String> scrape1 = new ArrayList<String>();
                         try {
-                            if (scraper.scrapeIndividual)
-                                scrape1 = ScraperHelper.scrapeIndividual(urls.get(0), false);
-                            else
-                                scrape1 = ScraperHelper.scrape(urls.get(0), false);
+                            if (scraper.bestBuyMode) {
+                                scrape1 = ScraperHelper.scrapeBestBuy(urls.get(0), false);
+                            } else {
+                                if (scraper.scrapeIndividual)
+                                    scrape1 = ScraperHelper.scrapeIndividual(urls.get(0), false);
+                                else
+                                    scrape1 = ScraperHelper.scrape(urls.get(0), false);
+                            }
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
@@ -62,10 +66,14 @@ public class Runner {
                     if (urls.size() > 1) {
                         ArrayList<String> scrape2 = new ArrayList<String>();
                         try {
-                            if (scraper.scrapeIndividual)
-                                scrape2 = ScraperHelper.scrapeIndividual(urls.get(1), false);
-                            else
-                                scrape2 = ScraperHelper.scrape(urls.get(1), false);
+                            if (scraper.bestBuyMode) {
+                                scrape2 = ScraperHelper.scrapeBestBuy(urls.get(1), false);
+                            } else {
+                                if (scraper.scrapeIndividual)
+                                    scrape2 = ScraperHelper.scrapeIndividual(urls.get(1), false);
+                                else
+                                    scrape2 = ScraperHelper.scrape(urls.get(1), false);
+                            }
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
@@ -87,10 +95,14 @@ public class Runner {
                     if (urls.size() > 0) {
                         ArrayList<String> scrape1 = new ArrayList<String>();
                         try {
-                            if (scraper.scrapeIndividual)
-                                scrape1 = ScraperHelper.scrapeIndividual(urls.get(0), true);
-                            else
-                                scrape1 = ScraperHelper.scrape(urls.get(0), true);
+                            if (scraper.bestBuyMode) {
+                                scrape1 = ScraperHelper.scrapeBestBuy(urls.get(0), true);
+                            } else {
+                                if (scraper.scrapeIndividual)
+                                    scrape1 = ScraperHelper.scrapeIndividual(urls.get(0), true);
+                                else
+                                    scrape1 = ScraperHelper.scrape(urls.get(0), true);
+                            }
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
@@ -100,10 +112,14 @@ public class Runner {
                     if (urls.size() > 1) {
                         ArrayList<String> scrape2 = new ArrayList<String>();
                         try {
-                            if (scraper.scrapeIndividual)
-                                scrape2 = ScraperHelper.scrapeIndividual(urls.get(1), true);
-                            else
-                                scrape2 = ScraperHelper.scrape(urls.get(1), true);
+                            if (scraper.bestBuyMode) {
+                                scrape2 = ScraperHelper.scrapeBestBuy(urls.get(1), true);
+                            } else {
+                                if (scraper.scrapeIndividual)
+                                    scrape2 = ScraperHelper.scrapeIndividual(urls.get(1), true);
+                                else
+                                    scrape2 = ScraperHelper.scrape(urls.get(1), true);
+                            }
                         } catch (Exception e) {
                             logger.warning("Groovy Error detected: " + e.toString() + "\r\n         Stacktrace: " + Arrays.toString(e.getStackTrace()));
                         }
