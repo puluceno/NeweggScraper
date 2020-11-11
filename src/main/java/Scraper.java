@@ -39,8 +39,8 @@ public class Scraper {
     private UrlTextPane pane3080 = new UrlTextPane();
     private UrlTextPane pane3090 = new UrlTextPane();
 
-    //private JTextField url3080 = new JTextField("https://www.bestbuy.com/site/searchpage.jsp?st=3080+rtx");
-    private JTextField url3080 = new JTextField("https://www.newegg.com/p/pl?d=rtx+3080&N=100007709&isdeptsrh=1");
+    private JTextField url3080 = new JTextField("https://www.bestbuy.com/site/searchpage.jsp?st=2080+rtx");
+    //private JTextField url3080 = new JTextField("https://www.newegg.com/p/pl?d=rtx+3080&N=100007709&isdeptsrh=1");
     //private JTextField url3090 = new JTextField("https://www.bestbuy.com/site/searchpage.jsp?st=3090+rtx");
     private JTextField url3090 = new JTextField("https://www.newegg.com/p/pl?d=rtx+3090&N=100007709&isdeptsrh=1");
 

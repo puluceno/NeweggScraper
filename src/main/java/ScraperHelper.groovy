@@ -6,6 +6,11 @@ import org.jsoup.select.Elements
 
 static ArrayList<String> scrape(String uri, boolean test) {
     def ret = new ArrayList<String>()
+
+    if (!uri.contains("newegg")) {
+        return ret
+    }
+
     String AUTO_NOTIFY = "AUTO NOTIFY"
     String SOLD_OUT = "SOLD OUT"
     def http = new HTTPBuilder(uri.replace(" ", "%20"))
@@ -40,6 +45,11 @@ static ArrayList<String> scrape(String uri, boolean test) {
 
 static ArrayList<String> scrapeIndividual(String uri, boolean test) {
     def ret = new ArrayList<String>()
+
+    if (!uri.contains("newegg")) {
+        return ret
+    }
+
     String AUTO_NOTIFY = "AUTO NOTIFY"
     String SOLD_OUT = "SOLD OUT"
     def http = new HTTPBuilder(uri.replace(" ", "%20"))
@@ -91,28 +101,47 @@ static ArrayList<String> scrapeBestBuy(String uri, boolean test) {
     String linkPrefix = "https://www.bestbuy.com"
 
     def ret = new ArrayList<String>()
+
+    if (!uri.contains("bestbuy")) {
+        return ret
+    }
+
     String AUTO_NOTIFY = "AUTO NOTIFY"
     String SOLD_OUT = "SOLD OUT"
+    String CHECK_STORES = "CHECK STORES"
+    String SHOP_OPEN_BOX = "SHOP OPEN-BOX"
+    String COMING_SOON = "COMING SOON"
 
     URL url = new URL(uri.replace(" ", "%20"))
     Document doc = Jsoup.parse(url, 5000)
 
-    Elements prodLink = doc.select("h4[class=sku-header]")
+    Elements iter = doc.select("div[class=right-column]")
 
-    for (each in prodLink) {
+    for (each in iter) {
 
-        String link = linkPrefix + each.select("a").first().attributes().get("href")
-        String product = each.select("a").first().text()
+        Elements productLink = each.select("h4[class=sku-header]")
 
-        Element itemButton = doc.select("div[class=sku-list-item-button]").first()
-        String buttonText = itemButton.select("button").first().text()
+        String link = linkPrefix + productLink.select("a").first().attributes().get("href")
+        String product = productLink.select("a").first().text()
+
+        Element itemButton = each.select("div[class=sku-list-item-button]").first()
+        String buttonText = ""
+        if (itemButton.select("button").first()) {
+            buttonText = itemButton.select("button").first().text()
+        } else {
+            buttonText = itemButton.select("a").first().text()
+        }
 
         if (test) {
-            if (buttonText?.toUpperCase()?.contains(AUTO_NOTIFY) || buttonText?.toUpperCase()?.contains(SOLD_OUT)) {
+            if (buttonText?.toUpperCase()?.contains(AUTO_NOTIFY) || buttonText?.toUpperCase()?.contains(SOLD_OUT) ||
+                    buttonText?.toUpperCase()?.contains(CHECK_STORES) || buttonText?.toUpperCase()?.contains(SHOP_OPEN_BOX) ||
+                    buttonText?.toUpperCase()?.contains(COMING_SOON)) {
                 ret.add(product + "‽" + link)
             }
         } else {
-            if (!buttonText?.toUpperCase()?.contains(AUTO_NOTIFY) && !buttonText?.toUpperCase()?.contains(SOLD_OUT)) {
+            if (!buttonText?.toUpperCase()?.contains(AUTO_NOTIFY) && !buttonText?.toUpperCase()?.contains(SOLD_OUT) &&
+                    !buttonText?.toUpperCase()?.contains(CHECK_STORES) && !buttonText?.toUpperCase()?.contains(SHOP_OPEN_BOX) &&
+                    !buttonText?.toUpperCase()?.contains(COMING_SOON)) {
                 ret.add(product + "‽" + link)
             }
         }
