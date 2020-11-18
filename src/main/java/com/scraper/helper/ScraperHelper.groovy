@@ -1,3 +1,5 @@
+package com.scraper.helper
+
 import groovyx.net.http.HTTPBuilder
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -56,8 +58,8 @@ static ArrayList<String> scrapeIndividual(String uri, boolean test) {
 
     def html = http.get([:])
 
-    String product = "";
-    String itemLink = "";
+    String product = ""
+    String itemLink = ""
 
     //Newegg
     html."**".findAll { it.@class.toString().contains("item-container") }.each {
@@ -96,7 +98,7 @@ static ArrayList<String> scrapeIndividual(String uri, boolean test) {
 }
 
 
-static ArrayList<String> scrapeBestBuy(String uri, boolean test) {
+static List<String> scrapeBestBuy(String uri, boolean test) {
 
     String linkPrefix = "https://www.bestbuy.com"
 
@@ -125,7 +127,7 @@ static ArrayList<String> scrapeBestBuy(String uri, boolean test) {
         String product = productLink.select("a").first().text()
 
         Element itemButton = each.select("div[class=sku-list-item-button]").first()
-        String buttonText = ""
+        String buttonText
         if (itemButton.select("button").first()) {
             buttonText = itemButton.select("button").first().text()
         } else {
